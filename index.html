@@ -2,60 +2,62 @@
 <html lang="fr">
 <head>
 <meta charset="UTF-8">
-<title>Market Dashboard</title>
-
+<title>MarketPulse</title>
 <link rel="stylesheet" href="style.css">
-
-<!-- TradingView -->
 <script src="https://s3.tradingview.com/tv.js"></script>
 </head>
 
 <body>
 
-<header>
-    <h1>📈 Market Dashboard</h1>
-</header>
+<div class="app">
 
-<!-- ================= GRAPH ================= -->
-<section>
-    <h2>Graphique</h2>
+    <!-- SIDEBAR -->
+    <aside class="sidebar">
+        <h1>MarketPulse</h1>
 
-    <div class="controls">
-        <input type="text" id="symbolInput" placeholder="BTCUSDT, ETHUSDT, NASDAQ:AAPL">
-        <button onclick="changeSymbol()">Afficher</button>
-        <button onclick="addToWatchlist()">⭐ Ajouter</button>
-    </div>
+        <nav>
+            <a class="active">Dashboard</a>
+            <a>Marchés</a>
+            <a>Watchlist</a>
+            <a>Scanner</a>
+            <a>Analyses</a>
+        </nav>
+    </aside>
 
-    <div id="tv_chart"></div>
-</section>
+    <!-- MAIN -->
+    <main class="main">
 
-<!-- ================= WATCHLIST ================= -->
-<section>
-    <h2>Watchlist</h2>
-    <ul id="watchlist"></ul>
-</section>
+        <header class="topbar">
+            <h2>Dashboard</h2>
+            <input id="symbolInput" placeholder="BTCUSDT..." />
+        </header>
 
-<!-- ================= SCANNER ================= -->
-<section>
-    <h2>Scanner Marché</h2>
+        <!-- CHART -->
+        <section class="card chart-card">
+            <div id="tv_chart"></div>
+        </section>
 
-    <label>Volume minimum (€)</label>
-    <input type="number" id="minVolume" value="5000000">
+        <!-- MARKET DATA -->
+        <section class="grid">
+            <div class="card">
+                <h3>Top Gainers</h3>
+                <ul id="gainers"></ul>
+            </div>
 
-    <button onclick="loadScanner()">Scanner</button>
+            <div class="card">
+                <h3>Top Losers</h3>
+                <ul id="losers"></ul>
+            </div>
 
-    <div class="scanner">
-        <div>
-            <h3>🚀 Gainers</h3>
-            <ul id="gainers"></ul>
-        </div>
+            <div class="card">
+                <h3>Watchlist</h3>
+                <ul id="watchlist"></ul>
+            </div>
+        </section>
 
-        <div>
-            <h3>🔻 Losers</h3>
-            <ul id="losers"></ul>
-        </div>
-    </div>
-</section>
+    </main>
+
+</div>
 
 <script src="app.js"></script>
 </body>
