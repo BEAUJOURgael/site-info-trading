@@ -1,54 +1,60 @@
 body {
-    margin: 0;
     font-family: Arial;
+    margin: 0;
     background: #0f172a;
-    color: #e2e8f0;
+    color: white;
 }
 
 header {
     background: #020617;
     padding: 20px;
+    text-align: center;
+}
+
+section {
+    padding: 30px;
+    border-bottom: 1px solid #1e293b;
+}
+
+.controls input {
+    padding: 10px;
+    width: 250px;
+}
+
+button {
+    padding: 10px 15px;
+    margin-left: 10px;
+    background: #22c55e;
+    border: none;
+    cursor: pointer;
+}
+
+button:hover {
+    background: #16a34a;
+}
+
+#tv_chart {
+    height: 500px;
+    margin-top: 20px;
+}
+
+ul {
+    list-style: none;
+    padding: 0;
+}
+
+li {
+    padding: 10px;
+    background: #020617;
+    margin-bottom: 5px;
     display: flex;
     justify-content: space-between;
-    align-items: center;
 }
 
-nav a {
-    color: #e2e8f0;
-    margin: 0 15px;
-    text-decoration: none;
-}
-
-nav a:hover {
-    color: #22c55e;
-}
-
-.hero {
-    text-align: center;
-    padding: 60px;
-}
-
-.market {
-    padding: 40px;
-}
-
-.cards {
+.scanner {
     display: flex;
-    gap: 20px;
-}
-
-.card {
-    background: #020617;
-    padding: 20px;
-    border-radius: 10px;
-    width: 200px;
+    gap: 40px;
 }
 
 .up { color: #22c55e; }
 .down { color: #ef4444; }
-
-footer {
-    text-align: center;
-    padding: 20px;
-    background: #020617;
-}
