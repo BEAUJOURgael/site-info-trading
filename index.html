@@ -2,36 +2,60 @@
 <html lang="fr">
 <head>
 <meta charset="UTF-8">
-<title>MarketPulse - Trading & Marchés</title>
+<title>Market Dashboard</title>
+
 <link rel="stylesheet" href="style.css">
+
+<!-- TradingView -->
+<script src="https://s3.tradingview.com/tv.js"></script>
 </head>
 
 <body>
 
 <header>
-    <h1>📈 MarketPulse</h1>
-    <nav>
-        <a href="#">Accueil</a>
-        <a href="#">Marchés</a>
-        <a href="#">Analyses</a>
-        <a href="#">Apprendre</a>
-        <a href="#">Outils</a>
-    </nav>
+    <h1>📈 Market Dashboard</h1>
 </header>
 
-<section class="hero">
-    <h2>Suivez les marchés en temps réel</h2>
-    <p>Crypto • Actions • Forex • Indices</p>
+<!-- ================= GRAPH ================= -->
+<section>
+    <h2>Graphique</h2>
+
+    <div class="controls">
+        <input type="text" id="symbolInput" placeholder="BTCUSDT, ETHUSDT, NASDAQ:AAPL">
+        <button onclick="changeSymbol()">Afficher</button>
+        <button onclick="addToWatchlist()">⭐ Ajouter</button>
+    </div>
+
+    <div id="tv_chart"></div>
 </section>
 
-<section class="market">
-    <h2>🔥 Tendances du Marché</h2>
-    <div id="crypto-data" class="cards"></div>
+<!-- ================= WATCHLIST ================= -->
+<section>
+    <h2>Watchlist</h2>
+    <ul id="watchlist"></ul>
 </section>
 
-<footer>
-    <p>© 2026 MarketPulse — Informations financières en temps réel</p>
-</footer>
+<!-- ================= SCANNER ================= -->
+<section>
+    <h2>Scanner Marché</h2>
+
+    <label>Volume minimum (€)</label>
+    <input type="number" id="minVolume" value="5000000">
+
+    <button onclick="loadScanner()">Scanner</button>
+
+    <div class="scanner">
+        <div>
+            <h3>🚀 Gainers</h3>
+            <ul id="gainers"></ul>
+        </div>
+
+        <div>
+            <h3>🔻 Losers</h3>
+            <ul id="losers"></ul>
+        </div>
+    </div>
+</section>
 
 <script src="app.js"></script>
 </body>
