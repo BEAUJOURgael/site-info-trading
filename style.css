@@ -12,14 +12,14 @@ body {
     color:#e2e8f0;
 }
 
-/* LAYOUT */
+/* ===== LAYOUT ===== */
 
 .app {
     display:flex;
     height:100vh;
 }
 
-/* SIDEBAR */
+/* ===== SIDEBAR ===== */
 
 .sidebar {
     width:230px;
@@ -52,7 +52,7 @@ body {
     color:#22c55e;
 }
 
-/* MAIN */
+/* ===== MAIN ===== */
 
 .main {
     flex:1;
@@ -60,12 +60,12 @@ body {
     overflow-y:auto;
 }
 
-/* VIEWS */
+/* ===== VIEWS ===== */
 
 .view { display:none; }
 .view.active { display:block; }
 
-/* CARDS */
+/* ===== CARDS ===== */
 
 .card {
     background:#0f172a;
@@ -74,22 +74,105 @@ body {
     padding:20px;
 }
 
-/* CHART */
+/* ===== CHART ===== */
 
 .chart-card {
     height:500px;
     margin-bottom:20px;
 }
 
-/* GRID */
+/* ===== GRID ===== */
 
 .grid {
     display:grid;
-    grid-template-columns:repeat(3,1fr);
+    grid-template-columns:repeat(auto-fit,minmax(320px,1fr));
     gap:20px;
 }
 
-/* LIST */
+/* ===== INPUTS ===== */
+
+input {
+    padding:10px;
+    background:#020617;
+    border:1px solid #1e293b;
+    color:white;
+    border-radius:6px;
+    width:100%;
+    margin-bottom:10px;
+}
+
+/* ===== WATCHLIST ===== */
+
+.watchlist-controls {
+    display:flex;
+    gap:10px;
+    margin-bottom:15px;
+}
+
+.watchlist-controls input {
+    flex:1;
+}
+
+.watchlist-controls button {
+    padding:10px 14px;
+    background:#22c55e;
+    border:none;
+    border-radius:6px;
+    cursor:pointer;
+    color:white;
+}
+
+.watchlist-controls button:hover {
+    background:#16a34a;
+}
+
+.watch-item {
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    padding:10px 0;
+    border-bottom:1px solid #1e293b;
+    cursor:pointer;
+}
+
+.watch-item span:first-child:hover {
+    color:#22c55e;
+}
+
+/* Prix live */
+.price {
+    color:#22c55e;
+    font-size:14px;
+    margin-left:10px;
+}
+
+/* Bouton suppression */
+.watch-item button {
+    background:#ef4444;
+    border:none;
+    padding:4px 8px;
+    color:white;
+    border-radius:4px;
+    cursor:pointer;
+}
+
+/* ===== MARKETS ===== */
+
+.add-btn {
+    background:#22c55e;
+    border:none;
+    padding:4px 8px;
+    cursor:pointer;
+    border-radius:4px;
+    color:white;
+    margin-left:10px;
+}
+
+.add-btn:hover {
+    background:#16a34a;
+}
+
+/* ===== LISTES ===== */
 
 ul {
     list-style:none;
@@ -100,11 +183,13 @@ li {
     border-bottom:1px solid #1e293b;
 }
 
-/* SCROLLBAR */
+/* ===== SCROLLBAR ===== */
 
 ::-webkit-scrollbar {
     width:6px;
 }
+
 ::-webkit-scrollbar-thumb {
     background:#1e293b;
+    border-radius:4px;
 }
