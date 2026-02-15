@@ -12,10 +12,8 @@
 
 <div class="app">
 
-<!-- SIDEBAR -->
 <aside class="sidebar">
     <h1>MarketPulse</h1>
-
     <nav>
         <a class="active">Dashboard</a>
         <a>Marchés</a>
@@ -24,41 +22,33 @@
     </nav>
 </aside>
 
-<!-- MAIN -->
 <main class="main">
 
 <!-- DASHBOARD -->
 <div id="dashboardView" class="view active">
-
     <section class="card chart-card">
         <div id="tv_chart"></div>
     </section>
 
     <section class="grid">
         <div class="card">
-            <h3>Top Gainers</h3>
-            <ul id="gainers"></ul>
-        </div>
-
-        <div class="card">
-            <h3>Top Losers</h3>
-            <ul id="losers"></ul>
-        </div>
-
-        <div class="card">
             <h3>Watchlist</h3>
-            <ul id="watchlist">
-                <li>Ajoute des actifs (fonction à venir)</li>
-            </ul>
+
+            <div class="watchlist-controls">
+                <input id="watchInput" placeholder="BTCUSDT, NASDAQ:AAPL, FX:EURUSD">
+                <button onclick="addAsset()">Ajouter</button>
+            </div>
+
+            <ul id="watchlist"></ul>
         </div>
     </section>
-
 </div>
 
 <!-- MARCHÉS -->
 <div id="marketsView" class="view">
     <div class="card">
-        <h2>Marchés en Direct</h2>
+        <h2>Recherche Marchés</h2>
+        <input id="searchMarket" placeholder="Rechercher un actif..." oninput="searchMarket()">
         <ul id="marketsList"></ul>
     </div>
 </div>
@@ -66,7 +56,7 @@
 <!-- SCANNER -->
 <div id="scannerView" class="view">
     <div class="card">
-        <h2>Scanner Avancé</h2>
+        <h2>Opportunités (>10%)</h2>
         <ul id="scannerList"></ul>
     </div>
 </div>
@@ -75,7 +65,7 @@
 <div id="analysisView" class="view">
     <div class="card">
         <h2>Analyses</h2>
-        <p>Tu pourras publier ici tes analyses trading / macro.</p>
+        <p>Zone éditoriale personnalisable.</p>
     </div>
 </div>
 
