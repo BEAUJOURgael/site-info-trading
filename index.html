@@ -3,6 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <title>MarketPulse</title>
+
 <link rel="stylesheet" href="style.css">
 <script src="https://s3.tradingview.com/tv.js"></script>
 </head>
@@ -11,52 +12,74 @@
 
 <div class="app">
 
-    <!-- SIDEBAR -->
-    <aside class="sidebar">
-        <h1>MarketPulse</h1>
+<!-- SIDEBAR -->
+<aside class="sidebar">
+    <h1>MarketPulse</h1>
 
-        <nav>
-            <a class="active">Dashboard</a>
-            <a>Marchés</a>
-            <a>Watchlist</a>
-            <a>Scanner</a>
-            <a>Analyses</a>
-        </nav>
-    </aside>
+    <nav>
+        <a class="active">Dashboard</a>
+        <a>Marchés</a>
+        <a>Scanner</a>
+        <a>Analyses</a>
+    </nav>
+</aside>
 
-    <!-- MAIN -->
-    <main class="main">
+<!-- MAIN -->
+<main class="main">
 
-        <header class="topbar">
-            <h2>Dashboard</h2>
-            <input id="symbolInput" placeholder="BTCUSDT..." />
-        </header>
+<!-- DASHBOARD -->
+<div id="dashboardView" class="view active">
 
-        <!-- CHART -->
-        <section class="card chart-card">
-            <div id="tv_chart"></div>
-        </section>
+    <section class="card chart-card">
+        <div id="tv_chart"></div>
+    </section>
 
-        <!-- MARKET DATA -->
-        <section class="grid">
-            <div class="card">
-                <h3>Top Gainers</h3>
-                <ul id="gainers"></ul>
-            </div>
+    <section class="grid">
+        <div class="card">
+            <h3>Top Gainers</h3>
+            <ul id="gainers"></ul>
+        </div>
 
-            <div class="card">
-                <h3>Top Losers</h3>
-                <ul id="losers"></ul>
-            </div>
+        <div class="card">
+            <h3>Top Losers</h3>
+            <ul id="losers"></ul>
+        </div>
 
-            <div class="card">
-                <h3>Watchlist</h3>
-                <ul id="watchlist"></ul>
-            </div>
-        </section>
+        <div class="card">
+            <h3>Watchlist</h3>
+            <ul id="watchlist">
+                <li>Ajoute des actifs (fonction à venir)</li>
+            </ul>
+        </div>
+    </section>
 
-    </main>
+</div>
 
+<!-- MARCHÉS -->
+<div id="marketsView" class="view">
+    <div class="card">
+        <h2>Marchés en Direct</h2>
+        <ul id="marketsList"></ul>
+    </div>
+</div>
+
+<!-- SCANNER -->
+<div id="scannerView" class="view">
+    <div class="card">
+        <h2>Scanner Avancé</h2>
+        <ul id="scannerList"></ul>
+    </div>
+</div>
+
+<!-- ANALYSES -->
+<div id="analysisView" class="view">
+    <div class="card">
+        <h2>Analyses</h2>
+        <p>Tu pourras publier ici tes analyses trading / macro.</p>
+    </div>
+</div>
+
+</main>
 </div>
 
 <script src="app.js"></script>
