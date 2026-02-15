@@ -1,87 +1,132 @@
-// -------- NAVIGATION SPA --------
-
-const links = document.querySelectorAll(".sidebar a");
-const views = document.querySelectorAll(".view");
+// ---------- NAVIGATION ----------
+const links=document.querySelectorAll(".sidebar a");
+const views=document.querySelectorAll(".view");
 
 links.forEach(link=>{
-    link.addEventListener("click",()=>{
+link.onclick=()=>{
+links.forEach(l=>l.classList.remove("active"));
+link.classList.add("active");
 
-        links.forEach(l=>l.classList.remove("active"));
-        link.classList.add("active");
+views.forEach(v=>v.classList.remove("active"));
 
-        const target = link.textContent.trim().toLowerCase();
-
-        views.forEach(v=>v.classList.remove("active"));
-
-        if(target==="dashboard") document.getElementById("dashboardView").classList.add("active");
-        if(target==="marchés") loadMarkets();
-        if(target==="scanner") loadScannerAdvanced();
-        if(target==="analyses") document.getElementById("analysisView").classList.add("active");
-    });
+if(link.textContent==="Dashboard") dashboardView.classList.add("active");
+if(link.textContent==="Marchés"){ marketsView.classList.add("active"); loadMarkets();}
+if(link.textContent==="Scanner"){ scannerView.classList.add("active"); loadScanner();}
+if(link.textContent==="Analyses") analysisView.classList.add("active");
+};
 });
 
-// -------- TRADINGVIEW --------
-
+// ---------- CHART ----------
+function loadChart(symbol="BINANCE:BTCUSDT"){
+tv_chart.innerHTML="";
 new TradingView.widget({
-    autosize:true,
-    symbol:"BINANCE:BTCUSDT",
-    theme:"dark",
-    container_id:"tv_chart"
+autosize:true,
+symbol:symbol,
+theme:"dark",
+container_id:"tv_chart"
 });
+}
+loadChart();
 
-// -------- DASHBOARD SCANNER --------
-
-async function loadDashboard(){
-    const r=await fetch("https://api.coingecko.com/api/v3/coins/markets?vs_currency=eur&order=volume_desc&per_page=50&page=1&price_change_percentage=24h");
-    const data=await r.json();
-
-    const gainers=[...data].sort((a,b)=>b.price_change_percentage_24h-a.price_change_percentage_24h).slice(0,5);
-    const losers=[...data].sort((a,b)=>a.price_change_percentage_24h-b.price_change_percentage_24h).slice(0,5);
-
-    render("gainers",gainers);
-    render("losers",losers);
+// ---------- WATCHLIST ----------
+function getWatchlist(){
+return JSON.parse(localStorage.getItem("watchlist")||"[]");
+}
+function saveWatchlist(list){
+localStorage.setItem("watchlist",JSON.stringify(list));
 }
 
-function render(id,list){
-    const ul=document.getElementById(id);
-    ul.innerHTML="";
-    list.forEach(c=>{
-        ul.innerHTML+=`<li>${c.name} (${c.price_change_percentage_24h.toFixed(2)}%)</li>`;
-    });
+function addAsset(symbolInput=null){
+let symbol=symbolInput||watchInput.value.toUpperCase();
+if(!symbol) return;
+
+if(!symbol.includes(":")) symbol="BINANCE:"+symbol;
+
+let list=getWatchlist();
+if(!list.includes(symbol)) list.push(symbol);
+
+saveWatchlist(list);
+renderWatchlist();
+watchInput.value="";
 }
 
-loadDashboard();
+function removeAsset(symbol){
+let list=getWatchlist().filter(s=>s!==symbol);
+saveWatchlist(list);
+renderWatchlist();
+}
 
-// -------- PAGE MARCHÉS --------
+function renderWatchlist(){
+watchlist.innerHTML="";
+getWatchlist().forEach(symbol=>{
+const li=document.createElement("li");
+li.className="watch-item";
+li.innerHTML=`
+<span onclick="loadChart('${symbol}')">${symbol}</span>
+<span class="price" id="price-${symbol}">...</span>
+<button onclick="removeAsset('${symbol}')">X</button>
+`;
+watchlist.appendChild(li);
+});
+updatePrices();
+}
+renderWatchlist();
 
+// ---------- LIVE PRICES ----------
+async function updatePrices(){
+const list=getWatchlist();
+if(!list.length) return;
+
+const ids=list.map(s=>s.split(":")[1].replace("USDT","").toLowerCase()).join(",");
+try{
+const r=await fetch(`https://api.coingecko.com/api/v3/simple/price?ids=${ids}&vs_currencies=eur`);
+const data=await r.json();
+
+list.forEach(symbol=>{
+const id=symbol.split(":")[1].replace("USDT","").toLowerCase();
+if(data[id]){
+document.getElementById("price-"+symbol).innerText=data[id].eur+" €";
+}
+});
+}catch{}
+}
+setInterval(updatePrices,15000);
+
+// ---------- MARKETS ----------
+let marketCache=[];
 async function loadMarkets(){
-    document.getElementById("marketsView").classList.add("active");
+if(marketCache.length) return renderMarkets(marketCache);
 
-    const r=await fetch("https://api.coingecko.com/api/v3/coins/markets?vs_currency=eur&order=market_cap_desc&per_page=30&page=1");
-    const data=await r.json();
-
-    const ul=document.getElementById("marketsList");
-    ul.innerHTML="";
-
-    data.forEach(c=>{
-        ul.innerHTML+=`<li>${c.name} — ${c.current_price} €</li>`;
-    });
+const r=await fetch("https://api.coingecko.com/api/v3/coins/markets?vs_currency=eur&per_page=50&page=1");
+marketCache=await r.json();
+renderMarkets(marketCache);
 }
 
-// -------- SCANNER AVANCÉ --------
+function renderMarkets(list){
+marketsList.innerHTML="";
+list.forEach(c=>{
+marketsList.innerHTML+=`
+<li>
+${c.name} — ${c.current_price} €
+<button class="add-btn" onclick="addAsset('BINANCE:${c.symbol.toUpperCase()}USDT')">⭐</button>
+</li>`;
+});
+}
 
-async function loadScannerAdvanced(){
-    document.getElementById("scannerView").classList.add("active");
+// ---------- SEARCH ----------
+function searchMarket(){
+const q=searchMarketInput.value.toLowerCase();
+const filtered=marketCache.filter(c=>c.name.toLowerCase().includes(q));
+renderMarkets(filtered);
+}
 
-    const r=await fetch("https://api.coingecko.com/api/v3/coins/markets?vs_currency=eur&order=volume_desc&per_page=100&page=1&price_change_percentage=24h");
-    const data=await r.json();
+// ---------- SCANNER ----------
+async function loadScanner(){
+const r=await fetch("https://api.coingecko.com/api/v3/coins/markets?vs_currency=eur&price_change_percentage=24h");
+const data=await r.json();
 
-    const strong=data.filter(c=>c.price_change_percentage_24h>10);
-
-    const ul=document.getElementById("scannerList");
-    ul.innerHTML="";
-
-    strong.forEach(c=>{
-        ul.innerHTML+=`<li>🔥 ${c.name} (${c.price_change_percentage_24h.toFixed(2)}%)</li>`;
-    });
+scannerList.innerHTML="";
+data.filter(c=>c.price_change_percentage_24h>10).slice(0,15).forEach(c=>{
+scannerList.innerHTML+=`<li>🔥 ${c.name} (${c.price_change_percentage_24h.toFixed(2)}%)</li>`;
+});
 }
